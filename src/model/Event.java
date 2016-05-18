@@ -5,46 +5,49 @@ import java.util.Calendar;
 
 public class Event  {
 	//----------Fields----------
-	private String  eventId;
-	private String eventName;
-	private ArrayList<String> organizarName;
-	private ArrayList <String> eventVenue;
-	private Calendar  registDay;
-	private String autherName;
-	private String autherPass;
-	private Calendar deadlineDay;
-    private ArrayList <String> autherRemark;
-	private Calendar determinedDay ;
-	private int determinedFlag;
-	private int eventOpenFlga;
-	private String numberOfEvent;
-	private String eventUrl;
-	private String eventPageFileName;
-	private ArrayList<String> pricePerPerson;
+	private String  eventId;//イベントID(一意)
+	private String eventName;//イベントの名前
+	private String organizarName;//幹事の名前
+	private ArrayList <String> eventVenue;//イベントの場所
+	private Calendar  registDay;//投稿日時
+	private String autherName;//イベント製作者の名前
+	private String autherPass;//イベント製作者の編集用pass
+	private Calendar deadlineDay;//締め切り日時
+    private ArrayList <String> autherRemark;//イベント製作者の備考欄
+	private Calendar determinedDay ;//確定日時
+	private int determinedFlag;//イベント確定のフラグ 1:確定,0:未確定
+	private int eventOpenFlga;//イベントの公開フラグ.1:公開,0:非公開
+	private String numberOfEvent;//イベント会数
+	private String eventUrl;//イベントページのURL
+	private String eventPageFileName;//イベントページファイルの名前
+	private ArrayList<String> pricePerPerson;//イベント一人当たりの料金
+	private ArrayList<Calendar> candidate ; //イベント候補日の集合
 	static int eventCounter=0;
 
 	//----------Constructor----------
-	public Event(String eventName, ArrayList<String> organizarName, ArrayList<String> eventVenue,
+	public Event(String eventName, String organizarName, ArrayList<String> eventVenue,
 			Calendar registDay, String autherName, String autherPass, Calendar deadlineDay,
 			ArrayList<String> autherRemark, Calendar determinedDay, int determinedFlag, int eventOpenFlga,
-			String numberOfEvent, String eventUrl, String eventPageFileName, ArrayList<String> pricePerPerson) {
+			String numberOfEvent, String eventUrl, String eventPageFileName, ArrayList<String> pricePerPerson,
+			ArrayList<Calendar>candidate) {
 		super();
 		this.eventId = String.valueOf(eventCounter);
 		this.eventName = eventName;
 		this.organizarName = organizarName;
 		this.eventVenue = eventVenue;
-		this.registDay = registDay;
+		this.registDay = Calendar.getInstance();
 		this.autherName = autherName;
 		this.autherPass = autherPass;
 		this.deadlineDay = deadlineDay;
 		this.autherRemark = autherRemark;
-		this.determinedDay = determinedDay;
-		this.determinedFlag = determinedFlag;
+		this.determinedDay = Calendar.getInstance();
+		this.determinedFlag = 0;
 		this.eventOpenFlga = eventOpenFlga;
 		this.numberOfEvent = numberOfEvent;
-		this.eventUrl = eventUrl;
-		this.eventPageFileName = eventPageFileName;
+		this.eventUrl = "undefined";
+		this.eventPageFileName = "undefined";
 		this.pricePerPerson = pricePerPerson;
+		this.candidate = candidate;
 		eventCounter++;
 	}
 
@@ -55,13 +58,14 @@ public class Event  {
 
 	public void setEventId(String eventId) {
 		this.eventId = eventId;
+
 	}
 
-	public ArrayList<String> getOrganizarName() {
+	public String getOrganizarName() {
 		return organizarName;
 	}
 
-	public void setOrganizarName(ArrayList<String> organizarName) {
+	public void setOrganizarName(String organizarName) {
 		this.organizarName = organizarName;
 	}
 
@@ -71,6 +75,22 @@ public class Event  {
 
 	public void setEventVenue(ArrayList<String> eventVenue) {
 		this.eventVenue = eventVenue;
+	}
+
+	public ArrayList<String> getPricePerPerson() {
+		return pricePerPerson;
+	}
+
+	public void setPricePerPerson(ArrayList<String> pricePerPerson) {
+		this.pricePerPerson = pricePerPerson;
+	}
+
+	public String getEventName() {
+		return eventName;
+	}
+
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
 	}
 
 	public Calendar getRegistDay() {
@@ -85,6 +105,45 @@ public class Event  {
 		setMinute(this.registDay ,minute);
 		setSecond(this.registDay ,second);
 	}
+
+	public int getRegistYear(){
+		return getYear(registDay);
+	}
+	public int getRegistMonth(){
+		return getMonth(registDay);
+	}
+	public int getRegistDate(){
+		return getDate(registDay);
+	}
+	public int getRegistHour(){
+		return getHour(registDay);
+	}
+	public int getRegistMinute(){
+		return getMinute(registDay);
+	}
+	public int getRegistSecond(){
+		return getSecond(registDay);
+	}
+
+	public void setRegistYear(int year){
+		setYear(this.registDay ,year);
+	}
+	public void setRegistMonth(int month){
+		setMonth(this.registDay ,month);
+	}
+	public void setRegistDate(int date){
+		setDate(this.registDay ,date);
+	}
+	public void setRegistHour(int hour){
+		setHour(this.registDay ,hour);
+	}
+	public void setRegistMinute(int minute){
+		setMinute(this.registDay ,minute);
+	}
+	public void setRegistSeconde(int second){
+		setSecond(this.registDay ,second);
+	}
+
 
 	public String getAutherName() {
 		return autherName;
@@ -115,6 +174,44 @@ public class Event  {
 		setSecond(this.deadlineDay ,second);
 	}
 
+	public int getDeadlineYear(){
+		return getYear(deadlineDay);
+	}
+	public int getDeadlineMonth(){
+		return getMonth(deadlineDay);
+	}
+	public int getDeadlineDate(){
+		return getDate(deadlineDay);
+	}
+	public int getDeadlineHour(){
+		return getHour(deadlineDay);
+	}
+	public int getDeadlineMinute(){
+		return getMinute(deadlineDay);
+	}
+	public int getDeadlineSecond(){
+		return getSecond(deadlineDay);
+	}
+
+	public void setDeadlineYear(int year){
+		setYear(this.deadlineDay ,year);
+	}
+	public void setDeadlineMonth(int month){
+		setMonth(this.deadlineDay ,month);
+	}
+	public void setDeadlineDate(int date){
+		setDate(this.deadlineDay ,date);
+	}
+	public void setDeadlineHour(int hour){
+		setHour(this.deadlineDay ,hour);
+	}
+	public void setDeadlineMinute(int minute){
+		setMinute(this.deadlineDay ,minute);
+	}
+	public void setDeadlineSeconde(int second){
+		setSecond(this.deadlineDay ,second);
+	}
+
 	public ArrayList<String> getAutherRemark() {
 		return autherRemark;
 	}
@@ -134,6 +231,44 @@ public class Event  {
 		setHour(this.determinedDay ,hour);
 		setMinute(this.determinedDay ,minute);
 		setSecond(this.determinedDay ,second);
+	}
+
+	public int getDeterminedYear(){
+		return getYear(registDay);
+	}
+	public int getDeterminedMonth(){
+		return getMonth(registDay);
+	}
+	public int getDeterminedDate(){
+		return getDate(registDay);
+	}
+	public int getDeterminedHour(){
+		return getHour(registDay);
+	}
+	public int getDeterminedMinute(){
+		return getMinute(registDay);
+	}
+	public int getDeterminedSecond(){
+		return getSecond(registDay);
+	}
+
+	public void setDeterminedYear(int year){
+		setYear(this.registDay ,year);
+	}
+	public void setDeterminedMonth(int month){
+		setMonth(this.registDay ,month);
+	}
+	public void setDeterminedDate(int date){
+		setDate(this.registDay ,date);
+	}
+	public void setDeterminedHour(int hour){
+		setHour(this.registDay ,hour);
+	}
+	public void setDeterminedMinute(int minute){
+		setMinute(this.registDay ,minute);
+	}
+	public void setDeterminedSeconde(int second){
+		setSecond(this.registDay ,second);
 	}
 
 	public int getDeterminedFlag() {
@@ -184,6 +319,24 @@ public class Event  {
 		Event.eventCounter = eventCounter;
 	}
 
+
+
+	public ArrayList<Calendar> getCandidate() {
+		return candidate;
+	}
+
+	public void setCandidate(ArrayList<Calendar> candidate) {
+		this.candidate = candidate;
+	}
+
+	public void addCandidate(Calendar candidate){
+		this.candidate.add(candidate);
+	}
+
+	public Calendar getCandidateElement(int i){ //i番目の要素(Calendar Class)を取り出す
+		return candidate.get(i);
+	}
+
 	//----------instance methods----------
 	public boolean isDeadlineDay(Calendar nowTime){
 		nowTime=Calendar.getInstance();
@@ -194,6 +347,8 @@ public class Event  {
 		if(autherPass == key) return true;
 		else return false;
 	}
+
+
 	//----------static methods----------
 	public static boolean isNotStrEnpty (String str){
 		if(str!= null && str.length() != 0) return true;
@@ -204,13 +359,37 @@ public class Event  {
 		else return false;
 	}
 
+	public  static int getYear(Calendar cal){
+		return cal.get(Calendar.YEAR);
+	}
+
+	public  static int getMonth(Calendar cal){
+		return cal.get(Calendar.MONTH);
+	}
+
+	public  static int getDate(Calendar cal){
+		return cal.get(Calendar.DATE);
+	}
+
+	public  static int getHour(Calendar cal){
+		return cal.get(Calendar.HOUR);
+	}
+
+	public  static int getMinute(Calendar cal){
+		return cal.get(Calendar.MINUTE);
+	}
+
+	public  static int getSecond(Calendar cal){
+		return cal.get(Calendar.SECOND);
+	}
+
 	public  static void setYear(Calendar cal,int n){
 		if(n>0) cal.set(Calendar.YEAR, n);
 		else cal.set(Calendar.YEAR, Calendar.YEAR);
 	}
 
 	public  static void setMonth(Calendar cal,int n){
-		if(n>0) cal.set(Calendar.MONTH, n);
+		if(n>=0) cal.set(Calendar.MONTH, n);
 		else cal.set(Calendar.MONTH, Calendar.MONTH );
 	}
 
